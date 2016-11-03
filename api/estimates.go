@@ -56,7 +56,6 @@ func (estimateClient Estimate) GetPrice(startLon string, endLon string, startLat
 		return nil, errors.Wrap(err, "Unable to get Price Estimates from uber")
 	}
 
-
 	resp, _ := ioutil.ReadAll(respReader)
 
 	var priceResp *PriceResp = &PriceResp{}
