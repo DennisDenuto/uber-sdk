@@ -10,6 +10,7 @@ import (
 	"time"
 	"net/http"
 	"github.com/golang/oauth2/uber"
+	"io/ioutil"
 )
 
 var _ = Describe("Oauth2", func() {
@@ -88,6 +89,34 @@ var _ = Describe("Oauth2", func() {
 			})
 
 		})
+
+		Describe("Get", func() {
+
+			Context("access token has been retrieved and valid", func() {
+				var server *ghttp.Server
+
+				BeforeEach(func() {
+					oauth2Config.AccessToken = &oauth2.Token{AccessToken: "Valid-Access-Token"}
+
+					server = ghttp.NewServer()
+					server.AppendHandlers(
+						func(w http.ResponseWriter, r *http.Request) {
+							ghttp.VerifyHeaderKV("Authorization", "Bearer Valid-Access-Token")(w, r)
+							ghttp.VerifyRequest("GET", "/")(w, r)
+						},
+					)
+				})
+
+				AfterEach(func() {
+					server.Close()
+				})
+
+				It("Should use access token when performing Get Request", func() {
+					oauth2Config.Get(server.URL(), nil)
+					Expect(server.ReceivedRequests()).To(HaveLen(1))
+				})
+			})
+		})
 	})
 
 	Context("When invalid client/secret is set", func() {
@@ -118,7 +147,7 @@ var _ = Describe("Oauth2", func() {
 						ghttp.VerifyRequest("POST", "/")(w, r)
 
 						ghttp.RespondWithJSONEncoded(401, struct {
-							Error  string `json:"error"`
+							Error string `json:"error"`
 						}{
 							"invalid_client",
 						})(w, r)
@@ -137,6 +166,60 @@ var _ = Describe("Oauth2", func() {
 				Expect(oauth2Config.AccessToken).To(BeNil())
 			})
 		})
+
+		Describe("Get", func() {
+			Context("access token has expired and refresh token is present", func() {
+				var server *ghttp.Server
+
+				BeforeEach(func() {
+					server = ghttp.NewServer()
+
+					oauth2Config.AccessToken = &oauth2.Token{Expiry:time.Now().Add(-time.Minute), RefreshToken: "Valid-refresh-token", AccessToken: "InValid-Access-Token"}
+					oauth2Config.AuthToken = &AuthToken{AuthCode: "AuthCode"}
+					oauth2Config.Endpoint = oauth2.Endpoint{
+						TokenURL: server.URL(),
+					}
+
+					server.AppendHandlers(
+						func(w http.ResponseWriter, r *http.Request) {
+							ghttp.VerifyRequest("POST", "/")(w, r)
+							ghttp.VerifyFormKV("grant_type", "refresh_token")(w, r)
+
+							ghttp.RespondWithJSONEncoded(200, struct {
+								AccessToken  string `json:"access_token"`
+								RefreshToken string `json:"refresh_token"`
+								ExpiresIn    int `json:"expires_in"`
+								Scope        string `json:"scope"`
+							}{
+								"NEW_VALID_ACCESS_TOKEN",
+								"REFRESH_TOKEN",
+								60,
+								"profile history",
+							})(w, r)
+						},
+						func(w http.ResponseWriter, r *http.Request) {
+							ghttp.VerifyHeaderKV("Authorization", "Bearer NEW_VALID_ACCESS_TOKEN")(w, r)
+							ghttp.VerifyRequest("GET", "/")(w, r)
+							ghttp.RespondWith(200, "RESPONSE")(w, r)
+						},
+					)
+				})
+
+				AfterEach(func() {
+					server.Close()
+				})
+
+				It("Should try to refresh token and then perform the GET request", func() {
+					reader, err := oauth2Config.Get(server.URL(), nil)
+					Expect(server.ReceivedRequests()).To(HaveLen(2))
+					Expect(err).ToNot(HaveOccurred())
+
+					output, _ := ioutil.ReadAll(reader)
+					Expect(string(output)).To(Equal("RESPONSE"))
+				})
+			})
+		})
+
 	})
 
 })
