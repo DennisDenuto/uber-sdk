@@ -27,7 +27,7 @@ var _ = Describe("Oauth2", func() {
 					Endpoint: uber.Endpoint,
 					Scopes: []string{"profile"},
 				},
-				nil, nil,
+				nil, nil, "",
 			}
 		})
 
@@ -49,6 +49,7 @@ var _ = Describe("Oauth2", func() {
 				BeforeEach(func() {
 					server = ghttp.NewServer()
 					oauth2Config.Endpoint = oauth2.Endpoint{TokenURL: server.URL()}
+					oauth2Config.RootUrl = server.URL()
 
 					server.AppendHandlers(
 						func(w http.ResponseWriter, r *http.Request) {
@@ -96,9 +97,11 @@ var _ = Describe("Oauth2", func() {
 				var server *ghttp.Server
 
 				BeforeEach(func() {
-					oauth2Config.AccessToken = &oauth2.Token{AccessToken: "Valid-Access-Token"}
-
 					server = ghttp.NewServer()
+
+					oauth2Config.AccessToken = &oauth2.Token{AccessToken: "Valid-Access-Token"}
+					oauth2Config.RootUrl = server.URL()
+
 					server.AppendHandlers(
 						func(w http.ResponseWriter, r *http.Request) {
 							ghttp.VerifyHeaderKV("Authorization", "Bearer Valid-Access-Token")(w, r)
@@ -112,7 +115,7 @@ var _ = Describe("Oauth2", func() {
 				})
 
 				It("Should use access token when performing Get Request", func() {
-					oauth2Config.Get(server.URL(), nil)
+					oauth2Config.Get("/", nil)
 					Expect(server.ReceivedRequests()).To(HaveLen(1))
 				})
 			})
@@ -133,7 +136,7 @@ var _ = Describe("Oauth2", func() {
 					Scopes: []string{"profile"},
 					Endpoint: uber.Endpoint,
 				},
-				nil, nil,
+				nil, nil, "",
 			}
 		})
 
@@ -141,6 +144,7 @@ var _ = Describe("Oauth2", func() {
 			BeforeEach(func() {
 				server = ghttp.NewServer()
 				oauth2Config.Endpoint = oauth2.Endpoint{TokenURL: server.URL()}
+				oauth2Config.RootUrl = server.URL()
 
 				server.AppendHandlers(
 					func(w http.ResponseWriter, r *http.Request) {
@@ -179,6 +183,7 @@ var _ = Describe("Oauth2", func() {
 					oauth2Config.Endpoint = oauth2.Endpoint{
 						TokenURL: server.URL(),
 					}
+					oauth2Config.RootUrl = server.URL()
 
 					server.AppendHandlers(
 						func(w http.ResponseWriter, r *http.Request) {
@@ -210,7 +215,7 @@ var _ = Describe("Oauth2", func() {
 				})
 
 				It("Should try to refresh token and then perform the GET request", func() {
-					reader, err := oauth2Config.Get(server.URL(), nil)
+					reader, err := oauth2Config.Get("/", nil)
 					Expect(server.ReceivedRequests()).To(HaveLen(2))
 					Expect(err).ToNot(HaveOccurred())
 
@@ -231,6 +236,7 @@ var _ = Describe("Oauth2", func() {
 					oauth2Config.Endpoint = oauth2.Endpoint{
 						TokenURL: server.URL(),
 					}
+					oauth2Config.RootUrl = server.URL()
 				})
 
 				AfterEach(func() {
@@ -238,7 +244,7 @@ var _ = Describe("Oauth2", func() {
 				})
 
 				It("Should try to refresh token and then perform the GET request", func() {
-					_, err := oauth2Config.Get(server.URL(), nil)
+					_, err := oauth2Config.Get("/", nil)
 					Expect(server.ReceivedRequests()).To(HaveLen(0))
 					Expect(err).To(HaveOccurred())
 				})

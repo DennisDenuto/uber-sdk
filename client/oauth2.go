@@ -4,12 +4,15 @@ import (
 	"io"
 	"golang.org/x/oauth2"
 	"context"
+	"fmt"
 )
+
 
 type Oauth2 struct {
 	oauth2.Config
 	AccessToken *oauth2.Token
 	AuthToken   *AuthToken
+	RootUrl string
 }
 
 type AuthToken struct {
@@ -42,7 +45,14 @@ func (oauth *Oauth2) Get(url string, queryParams map[string]string) (io.Reader, 
 		oauth.AccessToken = updatedToken
 	}
 
-	resp, err := oauth.Client(context.Background(), oauth.AccessToken).Get(url)
+	rootUrl := DefaultRootURL
+
+	if oauth.RootUrl != "" {
+		rootUrl = oauth.RootUrl
+	}
+
+	getUrl := fmt.Sprintf("%s%s", rootUrl, url)
+	resp, err := oauth.Client(context.Background(), oauth.AccessToken).Get(getUrl)
 
 	if err != nil {
 		return nil, err

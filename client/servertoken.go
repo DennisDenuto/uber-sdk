@@ -7,8 +7,6 @@ import (
 	"fmt"
 )
 
-const DefaultRootURL string = "https://api.uber.com/v1/"
-
 type ServerTokenClient struct {
 	RootUrl     string
 	ServerToken string
