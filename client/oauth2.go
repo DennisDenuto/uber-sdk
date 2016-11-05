@@ -32,8 +32,17 @@ func (oauth *Oauth2) Token(authToken string) (*oauth2.Token, error) {
 	return token, nil
 }
 
-func (oauth2 Oauth2) Get(url string, queryParams map[string]string) (io.Reader, error) {
-	resp, err := oauth2.Client(context.Background(), oauth2.AccessToken).Get(url)
+func (oauth *Oauth2) Get(url string, queryParams map[string]string) (io.Reader, error) {
+	if !oauth.AccessToken.Valid() {
+		updatedToken, err := oauth.TokenSource(context.Background(), oauth.AccessToken).Token()
+		if err != nil {
+			return nil, err
+		}
+
+		oauth.AccessToken = updatedToken
+	}
+
+	resp, err := oauth.Client(context.Background(), oauth.AccessToken).Get(url)
 
 	if err != nil {
 		return nil, err

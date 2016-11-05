@@ -216,6 +216,7 @@ var _ = Describe("Oauth2", func() {
 
 					output, _ := ioutil.ReadAll(reader)
 					Expect(string(output)).To(Equal("RESPONSE"))
+					Expect(oauth2Config.AccessToken.AccessToken).To(Equal("NEW_VALID_ACCESS_TOKEN"))
 				})
 			})
 
