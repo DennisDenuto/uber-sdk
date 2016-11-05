@@ -33,7 +33,11 @@ func (oauth *Oauth2) Token(authToken string) (*oauth2.Token, error) {
 }
 
 func (oauth2 Oauth2) Get(url string, queryParams map[string]string) (io.Reader, error) {
-	resp, _ := oauth2.Client(context.Background(), oauth2.AccessToken).Get(url)
+	resp, err := oauth2.Client(context.Background(), oauth2.AccessToken).Get(url)
+
+	if err != nil {
+		return nil, err
+	}
 
 	return resp.Body, nil
 }

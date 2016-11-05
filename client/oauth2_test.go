@@ -218,6 +218,30 @@ var _ = Describe("Oauth2", func() {
 					Expect(string(output)).To(Equal("RESPONSE"))
 				})
 			})
+
+			Context("access token has expired and no refresh token is present", func() {
+				var server *ghttp.Server
+
+				BeforeEach(func() {
+					server = ghttp.NewServer()
+
+					oauth2Config.AccessToken = &oauth2.Token{Expiry:time.Now().Add(-time.Minute), AccessToken: "InValid-Access-Token"}
+					oauth2Config.AuthToken = &AuthToken{AuthCode: "AuthCode"}
+					oauth2Config.Endpoint = oauth2.Endpoint{
+						TokenURL: server.URL(),
+					}
+				})
+
+				AfterEach(func() {
+					server.Close()
+				})
+
+				It("Should try to refresh token and then perform the GET request", func() {
+					_, err := oauth2Config.Get(server.URL(), nil)
+					Expect(server.ReceivedRequests()).To(HaveLen(0))
+					Expect(err).To(HaveOccurred())
+				})
+			})
 		})
 
 	})
