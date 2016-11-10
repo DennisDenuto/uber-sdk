@@ -16,7 +16,11 @@ type RiderInfo struct {
 }
 
 func (riderInfo RiderInfo) Me() (User, error) {
-	response, err := riderInfo.Oauth2.Get("/v1.2/me", nil)
+	response, err := riderInfo.Oauth2.Get("me", nil)
+
+	if err != nil {
+		return User{}, err
+	}
 
 	user := User{}
 	userBytes, _ := ioutil.ReadAll(response)
@@ -26,11 +30,11 @@ func (riderInfo RiderInfo) Me() (User, error) {
 
 type User struct {
 	FirstName string `json:"first_name"`
-	LastName string `json:"last_name"`
-	Email string `json:"email"`
-	Picture string `json:"picture"`
+	LastName  string `json:"last_name"`
+	Email     string `json:"email"`
+	Picture   string `json:"picture"`
 	PromoCode string `json:"promo_code"`
-	UUID string `json:"uuid"`
+	UUID      string `json:"uuid"`
 }
 
 func (riderInfo RiderInfo) History() {

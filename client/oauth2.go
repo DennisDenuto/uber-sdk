@@ -5,18 +5,34 @@ import (
 	"golang.org/x/oauth2"
 	"context"
 	"fmt"
+	"golang.org/x/oauth2/uber"
 )
-
 
 type Oauth2 struct {
 	oauth2.Config
 	AccessToken *oauth2.Token
 	AuthToken   *AuthToken
-	RootUrl string
+	RootUrl     string
 }
 
 type AuthToken struct {
 	AuthCode string
+}
+
+func NewOauth2(clientId string, clientSecret string, scopes []string, redirectUrl string) Oauth2 {
+	oauth2Client := oauth2.Config{
+		ClientID: clientId,
+		ClientSecret: clientSecret,
+		Endpoint: uber.Endpoint,
+		Scopes: scopes,
+		RedirectURL: redirectUrl,
+	}
+
+	return Oauth2{
+		oauth2Client,
+		nil, &AuthToken{}, "",
+	}
+
 }
 
 func (oauth *Oauth2) AuthorisationTokenUrl() string {
