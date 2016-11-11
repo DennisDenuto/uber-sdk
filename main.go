@@ -1,15 +1,19 @@
 package main
 
-import "fmt"
 import (
-	"golang.org/x/oauth2"
+	"fmt"
+	"github.com/DennisDenuto/uber-client/cli/cmd"
+	goflags "github.com/jessevdk/go-flags"
+	"os"
 )
 
-
 func main() {
-	fmt.Println("hi")
+	opts := &cmd.Opts{}
+	parser := goflags.NewParser(opts, goflags.HelpFlag | goflags.PassDoubleDash)
+	_, err := parser.ParseArgs(os.Args[1:])
+	_, ok := err.(*goflags.Error)
 
-	httpClient := NewClient(nil, nil)
-
-
+	if ok {
+		fmt.Println(err)
+	}
 }

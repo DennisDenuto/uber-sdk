@@ -10,8 +10,20 @@ type RidersMeCMd struct {
 }
 
 type EstimatorCmd struct {
+	GetTimeCmd `command:"get-time"`
+	GetPriceCmd `command:"get-price"`
+}
+
+type GetTimeCmd struct {
 	ServerTokenOpts
 	StartLatLonOpts
+}
+
+type GetPriceCmd struct {
+	ServerTokenOpts
+	StartLatLonOpts
+	StopLatLonOpts
+	SeatCount int `long:"seat-count" required:"true"`
 }
 
 type ServerTokenOpts struct {
@@ -24,6 +36,11 @@ type OauthOpts struct {
 }
 
 type StartLatLonOpts struct {
-	StartLat string `long:"start-lat"`
-	StartLon string `long:"start-lon"`
+	StartLat string `long:"start-lat" required:"true"`
+	StartLon string `long:"start-lon" required:"true"`
+}
+
+type StopLatLonOpts struct {
+	StopLat string `long:"stop-lat" required:"true"`
+	StopLon string `long:"stop-lon" required:"true"`
 }

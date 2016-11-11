@@ -26,7 +26,7 @@ var _ = Describe("Riders", func() {
 			oauth2Config.Endpoint = oauth2.Endpoint{
 				TokenURL: server.URL(),
 			}
-			oauth2Config.RootUrl = server.URL()
+			oauth2Config.RootUrl = server.URL() + "/"
 
 			ridersClient = RiderInfo{
 				Oauth2: oauth2Config,
@@ -37,7 +37,7 @@ var _ = Describe("Riders", func() {
 			BeforeEach(func() {
 				server.AppendHandlers(
 					func(w http.ResponseWriter, r *http.Request) {
-						ghttp.VerifyRequest("GET", "/v1.2/me")(w, r)
+						ghttp.VerifyRequest("GET", "/me")(w, r)
 						ghttp.RespondWith(200, `{
 									  "first_name": "Uber",
 									  "last_name": "Developer",

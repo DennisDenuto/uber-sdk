@@ -10,7 +10,6 @@ import (
 type ServerTokenClient struct {
 	RootUrl     string
 	ServerToken string
-	HttpClient  http.Client
 }
 
 func (serverTokenClient ServerTokenClient) Get(uberResourceUrl string, queryParams map[string]string) (io.Reader, error) {

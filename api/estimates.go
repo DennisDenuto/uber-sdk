@@ -17,6 +17,10 @@ type Estimate struct {
 	ServerTokenClient client.Client
 }
 
+func NewEstimate(serverToken string) Estimate {
+	return Estimate{client.ServerTokenClient{ServerToken: serverToken}}
+}
+
 func (estimateClient Estimate) GetTime(startLon string, startLat string) (*TimesResp, error) {
 	queryParams := map[string]string{
 		"start_latitude" : startLat,

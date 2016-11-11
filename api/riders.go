@@ -15,6 +15,10 @@ type RiderInfo struct {
 	Oauth2 client.Oauth2
 }
 
+func NewRiderInfo(clientId string, clientSecret string, redirectUrl string) RiderInfo {
+	return RiderInfo{client.NewOauth2(clientId, clientSecret, []string{"profile"}, redirectUrl), }
+}
+
 func (riderInfo RiderInfo) Me() (User, error) {
 	response, err := riderInfo.Oauth2.Get("me", nil)
 
