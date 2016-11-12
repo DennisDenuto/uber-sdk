@@ -2,7 +2,7 @@ package cmd
 
 type Opts struct {
 	EstimatorCmd `command:"estimate"`
-	RidersMeCMd `command:"me"`
+	RidersMeCMd  `command:"me"`
 }
 
 type RidersMeCMd struct {
@@ -10,7 +10,7 @@ type RidersMeCMd struct {
 }
 
 type EstimatorCmd struct {
-	GetTimeCmd `command:"get-time"`
+	GetTimeCmd  `command:"get-time"`
 	GetPriceCmd `command:"get-price"`
 }
 

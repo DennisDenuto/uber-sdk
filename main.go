@@ -9,7 +9,7 @@ import (
 
 func main() {
 	opts := &cmd.Opts{}
-	parser := goflags.NewParser(opts, goflags.HelpFlag | goflags.PassDoubleDash)
+	parser := goflags.NewParser(opts, goflags.HelpFlag|goflags.PassDoubleDash)
 	_, err := parser.ParseArgs(os.Args[1:])
 	_, ok := err.(*goflags.Error)
 

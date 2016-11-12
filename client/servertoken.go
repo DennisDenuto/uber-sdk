@@ -1,10 +1,10 @@
 package client
 
 import (
-	"net/http"
-	"io"
-	"net/url"
 	"fmt"
+	"io"
+	"net/http"
+	"net/url"
 )
 
 type ServerTokenClient struct {

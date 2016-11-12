@@ -3,13 +3,13 @@ package api_test
 import (
 	. "github.com/DennisDenuto/uber-client/api"
 
+	"github.com/DennisDenuto/uber-client/client"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/DennisDenuto/uber-client/client"
-	"golang.org/x/oauth2"
 	"github.com/onsi/gomega/ghttp"
-	"time"
+	"golang.org/x/oauth2"
 	"net/http"
+	"time"
 )
 
 var _ = Describe("Riders", func() {
@@ -22,7 +22,7 @@ var _ = Describe("Riders", func() {
 		BeforeEach(func() {
 			server = ghttp.NewServer()
 
-			oauth2Config.AccessToken = &oauth2.Token{Expiry:time.Now().Add(time.Minute), RefreshToken: "Valid-refresh-token", AccessToken: "Valid-Access-Token"}
+			oauth2Config.AccessToken = &oauth2.Token{Expiry: time.Now().Add(time.Minute), RefreshToken: "Valid-refresh-token", AccessToken: "Valid-Access-Token"}
 			oauth2Config.Endpoint = oauth2.Endpoint{
 				TokenURL: server.URL(),
 			}

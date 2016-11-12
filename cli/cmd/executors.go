@@ -1,15 +1,14 @@
 package cmd
 
 import (
+	"bufio"
 	"fmt"
 	"github.com/DennisDenuto/uber-client/api"
 	log "github.com/Sirupsen/logrus"
-	"strings"
-	"os"
-	"bufio"
 	"github.com/gosuri/uitable"
+	"os"
+	"strings"
 )
-
 
 func AskForAuthCode(authCodeUrl string) string {
 	reader := bufio.NewReader(os.Stdin)
@@ -97,4 +96,3 @@ func (c GetPriceCmd) Execute(args []string) error {
 
 	return nil
 }
-

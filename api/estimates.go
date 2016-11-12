@@ -1,10 +1,10 @@
 package api
 
 import (
-	"github.com/DennisDenuto/uber-client/client"
 	"encoding/json"
-	"io/ioutil"
+	"github.com/DennisDenuto/uber-client/client"
 	"github.com/pkg/errors"
+	"io/ioutil"
 	"strconv"
 )
 
@@ -23,8 +23,8 @@ func NewEstimate(serverToken string) Estimate {
 
 func (estimateClient Estimate) GetTime(startLon string, startLat string) (*TimesResp, error) {
 	queryParams := map[string]string{
-		"start_latitude" : startLat,
-		"start_longitude" : startLon,
+		"start_latitude":  startLat,
+		"start_longitude": startLon,
 	}
 	respReader, err := estimateClient.ServerTokenClient.Get("estimates/time", queryParams)
 
@@ -41,17 +41,16 @@ func (estimateClient Estimate) GetTime(startLon string, startLat string) (*Times
 		return nil, errors.Wrap(err, "Unable to parse Time Estimates response from uber")
 	}
 
-
 	return timesResp, nil
 }
 
 func (estimateClient Estimate) GetPrice(startLon string, endLon string, startLat string, endLat string, seatCount int) (*PriceResp, error) {
 	queryParams := map[string]string{
-		"start_latitude" : startLat,
-		"start_longitude" : startLon,
-		"end_latitude" : endLat,
-		"end_longitude" : endLon,
-		"seat_count" : strconv.Itoa(seatCount),
+		"start_latitude":  startLat,
+		"start_longitude": startLon,
+		"end_latitude":    endLat,
+		"end_longitude":   endLon,
+		"seat_count":      strconv.Itoa(seatCount),
 	}
 
 	respReader, err := estimateClient.ServerTokenClient.Get("estimates/price", queryParams)
@@ -79,20 +78,19 @@ type TimesResp struct {
 type Time struct {
 	ProductID   string `json:"product_id"`
 	DisplayName string `json:"display_name"`
-	Estimate    int `json:"estimate"`
+	Estimate    int    `json:"estimate"`
 }
-
 
 type PriceResp struct {
 	Prices []*Price `json:"prices"`
 }
 
 type Price struct {
-	ProductID       string `json:"product_id"`
-	CurrencyCode    string `json:"currency_code"`
-	DisplayName     string `json:"display_name"`
-	Estimate        string `json:"estimate"`
-	LowEstimate     int `json:"low_estimate"`
-	HighEstimate    int `json:"high_estimate"`
+	ProductID       string  `json:"product_id"`
+	CurrencyCode    string  `json:"currency_code"`
+	DisplayName     string  `json:"display_name"`
+	Estimate        string  `json:"estimate"`
+	LowEstimate     int     `json:"low_estimate"`
+	HighEstimate    int     `json:"high_estimate"`
 	SurgeMultiplier float64 `json:"surge_multiplier"`
 }

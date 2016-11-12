@@ -3,14 +3,14 @@ package client_test
 import (
 	. "github.com/DennisDenuto/uber-client/client"
 
+	"github.com/golang/oauth2/uber"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/ghttp"
 	"golang.org/x/oauth2"
-	"time"
-	"net/http"
-	"github.com/golang/oauth2/uber"
 	"io/ioutil"
+	"net/http"
+	"time"
 )
 
 var _ = Describe("Oauth2", func() {
@@ -21,11 +21,11 @@ var _ = Describe("Oauth2", func() {
 		BeforeEach(func() {
 			oauth2Config = Oauth2{
 				oauth2.Config{
-					ClientID: "valid-client-id",
+					ClientID:     "valid-client-id",
 					ClientSecret: "valid-client-secret",
-					RedirectURL: "https://valid-redirect-url",
-					Endpoint: uber.Endpoint,
-					Scopes: []string{"profile"},
+					RedirectURL:  "https://valid-redirect-url",
+					Endpoint:     uber.Endpoint,
+					Scopes:       []string{"profile"},
 				},
 				nil, nil, "",
 			}
@@ -59,7 +59,7 @@ var _ = Describe("Oauth2", func() {
 							ghttp.RespondWithJSONEncoded(200, struct {
 								AccessToken  string `json:"access_token"`
 								RefreshToken string `json:"refresh_token"`
-								ExpiresIn    int `json:"expires_in"`
+								ExpiresIn    int    `json:"expires_in"`
 								Scope        string `json:"scope"`
 							}{
 								"ACCESS_TOKEN",
@@ -130,11 +130,11 @@ var _ = Describe("Oauth2", func() {
 		BeforeEach(func() {
 			oauth2Config = Oauth2{
 				oauth2.Config{
-					ClientID: "invalid-client-id",
+					ClientID:     "invalid-client-id",
 					ClientSecret: "invalid-client-secret",
-					RedirectURL: "https://valid-redirect-url",
-					Scopes: []string{"profile"},
-					Endpoint: uber.Endpoint,
+					RedirectURL:  "https://valid-redirect-url",
+					Scopes:       []string{"profile"},
+					Endpoint:     uber.Endpoint,
 				},
 				nil, nil, "",
 			}
@@ -178,7 +178,7 @@ var _ = Describe("Oauth2", func() {
 				BeforeEach(func() {
 					server = ghttp.NewServer()
 
-					oauth2Config.AccessToken = &oauth2.Token{Expiry:time.Now().Add(-time.Minute), RefreshToken: "Valid-refresh-token", AccessToken: "InValid-Access-Token"}
+					oauth2Config.AccessToken = &oauth2.Token{Expiry: time.Now().Add(-time.Minute), RefreshToken: "Valid-refresh-token", AccessToken: "InValid-Access-Token"}
 					oauth2Config.AuthToken = &AuthToken{AuthCode: "AuthCode"}
 					oauth2Config.Endpoint = oauth2.Endpoint{
 						TokenURL: server.URL(),
@@ -193,7 +193,7 @@ var _ = Describe("Oauth2", func() {
 							ghttp.RespondWithJSONEncoded(200, struct {
 								AccessToken  string `json:"access_token"`
 								RefreshToken string `json:"refresh_token"`
-								ExpiresIn    int `json:"expires_in"`
+								ExpiresIn    int    `json:"expires_in"`
 								Scope        string `json:"scope"`
 							}{
 								"NEW_VALID_ACCESS_TOKEN",
@@ -231,7 +231,7 @@ var _ = Describe("Oauth2", func() {
 				BeforeEach(func() {
 					server = ghttp.NewServer()
 
-					oauth2Config.AccessToken = &oauth2.Token{Expiry:time.Now().Add(-time.Minute), AccessToken: "InValid-Access-Token"}
+					oauth2Config.AccessToken = &oauth2.Token{Expiry: time.Now().Add(-time.Minute), AccessToken: "InValid-Access-Token"}
 					oauth2Config.AuthToken = &AuthToken{AuthCode: "AuthCode"}
 					oauth2Config.Endpoint = oauth2.Endpoint{
 						TokenURL: server.URL(),

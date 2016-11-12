@@ -1,11 +1,11 @@
 package client
 
 import (
-	"io"
-	"golang.org/x/oauth2"
 	"context"
 	"fmt"
+	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/uber"
+	"io"
 )
 
 type Oauth2 struct {
@@ -21,11 +21,11 @@ type AuthToken struct {
 
 func NewOauth2(clientId string, clientSecret string, scopes []string, redirectUrl string) Oauth2 {
 	oauth2Client := oauth2.Config{
-		ClientID: clientId,
+		ClientID:     clientId,
 		ClientSecret: clientSecret,
-		Endpoint: uber.Endpoint,
-		Scopes: scopes,
-		RedirectURL: redirectUrl,
+		Endpoint:     uber.Endpoint,
+		Scopes:       scopes,
+		RedirectURL:  redirectUrl,
 	}
 
 	return Oauth2{
@@ -76,5 +76,3 @@ func (oauth *Oauth2) Get(url string, queryParams map[string]string) (io.Reader, 
 
 	return resp.Body, nil
 }
-
-

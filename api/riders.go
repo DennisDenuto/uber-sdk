@@ -1,8 +1,8 @@
 package api
 
 import (
-	"github.com/DennisDenuto/uber-client/client"
 	"encoding/json"
+	"github.com/DennisDenuto/uber-client/client"
 	"io/ioutil"
 )
 
@@ -16,7 +16,7 @@ type RiderInfo struct {
 }
 
 func NewRiderInfo(clientId string, clientSecret string, redirectUrl string) RiderInfo {
-	return RiderInfo{client.NewOauth2(clientId, clientSecret, []string{"profile"}, redirectUrl), }
+	return RiderInfo{client.NewOauth2(clientId, clientSecret, []string{"profile"}, redirectUrl)}
 }
 
 func (riderInfo RiderInfo) Me() (User, error) {
@@ -43,4 +43,3 @@ type User struct {
 
 func (riderInfo RiderInfo) History() {
 }
-

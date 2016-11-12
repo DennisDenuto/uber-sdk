@@ -31,7 +31,7 @@ var _ = Describe("Servertoken", func() {
 			BeforeEach(func() {
 				serverTokenClient.ServerToken = "PROVIDED_SERVER_TOKEN"
 				server.AppendHandlers(
-					ghttp.VerifyRequest("GET", "/foo","server_token=PROVIDED_SERVER_TOKEN"),
+					ghttp.VerifyRequest("GET", "/foo", "server_token=PROVIDED_SERVER_TOKEN"),
 				)
 			})
 
@@ -47,7 +47,7 @@ var _ = Describe("Servertoken", func() {
 			BeforeEach(func() {
 				serverTokenClient.ServerToken = "PROVIDED_SERVER_TOKEN"
 				server.AppendHandlers(
-					ghttp.VerifyRequest("GET", "/bar","custom_param=foo&server_token=PROVIDED_SERVER_TOKEN"),
+					ghttp.VerifyRequest("GET", "/bar", "custom_param=foo&server_token=PROVIDED_SERVER_TOKEN"),
 				)
 			})
 

@@ -3,11 +3,11 @@ package api_test
 import (
 	. "github.com/DennisDenuto/uber-client/api"
 
+	"fmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"io"
 	"strings"
-	"fmt"
 )
 
 type FakeServerTokenClient struct {
@@ -115,7 +115,7 @@ var _ = Describe("Estimates", func() {
 					uberError = fmt.Errorf("Some random error occurred!")
 
 					fakeServerTokenClient = &FakeServerTokenClient{
-						ReturnedError:uberError,
+						ReturnedError: uberError,
 					}
 
 					client = Estimate{
@@ -171,7 +171,6 @@ var _ = Describe("Estimates", func() {
 					Expect(fakeServerTokenClient.ExpectedQueryParams).To(HaveKeyWithValue("start_longitude", "1.111111111"))
 				})
 
-
 				Context("Invalid json format", func() {
 					BeforeEach(func() {
 						fakeServerTokenClient = &FakeServerTokenClient{
@@ -199,7 +198,7 @@ var _ = Describe("Estimates", func() {
 					uberError = fmt.Errorf("Some random error occurred!")
 
 					fakeServerTokenClient = &FakeServerTokenClient{
-						ReturnedError:uberError,
+						ReturnedError: uberError,
 					}
 
 					client = Estimate{
