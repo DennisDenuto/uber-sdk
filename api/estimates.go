@@ -26,7 +26,7 @@ func (estimateClient Estimate) GetTime(startLon string, startLat string) (*Times
 		"start_latitude":  startLat,
 		"start_longitude": startLon,
 	}
-	respReader, err := estimateClient.ServerTokenClient.Get("estimates/time", queryParams)
+	respReader, err := estimateClient.ServerTokenClient.Get("v1/estimates/time", queryParams)
 
 	if err != nil {
 		return nil, errors.Wrap(err, "Unable to get Time Estimates from uber")
@@ -53,7 +53,7 @@ func (estimateClient Estimate) GetPrice(startLon string, endLon string, startLat
 		"seat_count":      strconv.Itoa(seatCount),
 	}
 
-	respReader, err := estimateClient.ServerTokenClient.Get("estimates/price", queryParams)
+	respReader, err := estimateClient.ServerTokenClient.Get("v1/estimates/price", queryParams)
 
 	if err != nil {
 		return nil, errors.Wrap(err, "Unable to get Price Estimates from uber")

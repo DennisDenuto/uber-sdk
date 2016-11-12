@@ -83,7 +83,7 @@ var _ = Describe("Estimates", func() {
 					Expect(resp).ToNot(BeNil())
 					Expect(resp.Prices).To(HaveLen(2))
 
-					Expect(fakeServerTokenClient.ExpectedUrl).To(Equal("estimates/price"))
+					Expect(fakeServerTokenClient.ExpectedUrl).To(Equal("v1/estimates/price"))
 					Expect(fakeServerTokenClient.ExpectedQueryParams).To(HaveKeyWithValue("start_latitude", "2.222222222"))
 					Expect(fakeServerTokenClient.ExpectedQueryParams).To(HaveKeyWithValue("start_longitude", "1.111111111"))
 				})
@@ -166,7 +166,7 @@ var _ = Describe("Estimates", func() {
 					Expect(resp).ToNot(BeNil())
 					Expect(resp.Times).To(HaveLen(1))
 					Expect(resp.Times[0].DisplayName).To(Equal("uberPOOL"))
-					Expect(fakeServerTokenClient.ExpectedUrl).To(Equal("estimates/time"))
+					Expect(fakeServerTokenClient.ExpectedUrl).To(Equal("v1/estimates/time"))
 					Expect(fakeServerTokenClient.ExpectedQueryParams).To(HaveKeyWithValue("start_latitude", "2.222222222"))
 					Expect(fakeServerTokenClient.ExpectedQueryParams).To(HaveKeyWithValue("start_longitude", "1.111111111"))
 				})
