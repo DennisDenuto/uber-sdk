@@ -1,9 +1,9 @@
 package api_test
 
 import (
-	. "github.com/DennisDenuto/uber-client/api"
+	. "github.com/DennisDenuto/uber-sdk/api"
 
-	"github.com/DennisDenuto/uber-client/client"
+	"github.com/DennisDenuto/uber-sdk/client"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/ghttp"

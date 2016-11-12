@@ -1,7 +1,7 @@
 package api_test
 
 import (
-	. "github.com/DennisDenuto/uber-client/api"
+	. "github.com/DennisDenuto/uber-sdk/api"
 
 	"fmt"
 	. "github.com/onsi/ginkgo"

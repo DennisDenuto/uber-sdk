@@ -2,7 +2,7 @@ package api
 
 import (
 	"encoding/json"
-	"github.com/DennisDenuto/uber-client/client"
+	"github.com/DennisDenuto/uber-sdk/client"
 	"io/ioutil"
 )
 

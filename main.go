@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/DennisDenuto/uber-client/cli/cmd"
+	"github.com/DennisDenuto/uber-sdk/cli/cmd"
 	goflags "github.com/jessevdk/go-flags"
 	"os"
 )

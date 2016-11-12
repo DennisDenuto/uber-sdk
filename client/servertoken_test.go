@@ -1,7 +1,7 @@
 package client_test
 
 import (
-	. "github.com/DennisDenuto/uber-client/client"
+	. "github.com/DennisDenuto/uber-sdk/client"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

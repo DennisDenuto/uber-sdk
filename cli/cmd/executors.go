@@ -3,7 +3,7 @@ package cmd
 import (
 	"bufio"
 	"fmt"
-	"github.com/DennisDenuto/uber-client/api"
+	"github.com/DennisDenuto/uber-sdk/api"
 	log "github.com/Sirupsen/logrus"
 	"github.com/gosuri/uitable"
 	"os"
