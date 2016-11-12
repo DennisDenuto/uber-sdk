@@ -282,6 +282,14 @@
 			"notests": true
 		},
 		{
+			"importpath": "github.com/tjarratt/gcounterfeiter",
+			"repository": "https://github.com/tjarratt/gcounterfeiter",
+			"vcs": "git",
+			"revision": "8a4c307ac4024de25ade931b69ab296b1e52e1c2",
+			"branch": "master",
+			"notests": true
+		},
+		{
 			"importpath": "go4.org/syncutil/singleflight",
 			"repository": "https://github.com/camlistore/go4",
 			"vcs": "git",
